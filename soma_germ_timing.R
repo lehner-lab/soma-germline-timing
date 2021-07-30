@@ -11,7 +11,7 @@ setwd(wd)
 #read the data
 data<-read.table('data.txt',sep='\t',header=T,stringsAsFactors = T)
 
-data_filt<-na.omit(data_filt)
+data_filt<-na.omit(data)
 
 #define the transitions (molting, first embryo)
 
