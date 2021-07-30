@@ -140,19 +140,7 @@ q<-ggplot(data = data_diff, aes_string(x = x, y = 'time'
 q+theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
-# prepare raw data for plotting with ggplot
-
-#calculate fraction of worms before and after the transition 
-data_filt[,'tot']<-data_filt[,1]+data_filt[,2]
-mean<-data_filt[,2]/data_filt[,'tot']
-data_filt[,'mean']<-mean
-
-#calculated confidence intervals for binomial data
-conf_low<-binom.confint(data_filt[,2],data_filt[,'tot'],method='wilson',conf.level=0.95)[,5]
-conf_high<-binom.confint(data_filt[,2],data_filt[,'tot'],method='wil')[,6]
-
-data_filt[,'low']<-conf_low
-data_filt[,'high']<-conf_high
+# Plot binomial glm fit
 
 
 for(d in unique(description)){
