@@ -43,10 +43,10 @@ for(d in unique(description)){
     if(dim(data_try)[1]>1){
       
       #this function fits a glm the y is binomial format (before and after the transition) and x time
-      fit<-glm(as.matrix(data_try[,1:2])~data_try[,'time.after.plate'],family=binomial('logit'))
+      fit<-glm(as.matrix(data_try[,2:1])~data_try[,'time.after.plate'],family=binomial('logit'))
       
       #this function finds the time at which p = proportion of the population have undergone the transition
-      xp<-dose.p(fit,p=1-p)
+      xp<-dose.p(fit,p=p)
       
       #this finds the 95% confidence intervals
       xp.ci <- xp + attr(xp, "SE") %*% matrix(qnorm(1-(1-CI)/2)*c(-1,1), nrow=1)
