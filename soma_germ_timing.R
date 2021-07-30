@@ -75,22 +75,12 @@ t50_table_tot[,'description']<-matrix(unlist(strsplit(rownames(t50_table_tot),' 
 
 t50_table_tot[,'description']<-factor(t50_table_tot[,'description'],levels = sort(unique(t50_table_tot[,'description'])))
 
-#you can also separate the single experimental factors from the description column if you prefer like the example below
-t50_table_tot[,'genotype']<-matrix(unlist(strsplit(t50_table_tot[,'description'],'_')),ncol=ncol,byrow=T)[,1]
-t50_table_tot[,'juice']<-matrix(unlist(strsplit(t50_table_tot[,'description'],'_')),ncol=ncol,byrow=T)[,2]
-
 
 #prepare table for plotting
 
-#use all data in the t50 table
-
-data<-t50_table_tot
-
-#Subset t50 table for plotting
-
 # subsets T50 table according to transition
-L4_A<-data[data[,'transition']=='L4/A',]
-embryo<-data[data[,'transition']=='embryo',]
+L4_A<-t50_table_tot[t50_table_tot[,'transition']=='L4/A',]
+embryo<-t50_table_tot[t50_table_tot[,'transition']=='embryo',]
 
 #create a table with time difference between transitions to plot the shifts
 data_diff<-embryo[1]-L4_A[1]
@@ -110,7 +100,7 @@ data_diff[,'description']<-L4_A[,'description']
 
 x<-'description'
 
-q<-ggplot(data = data, aes_string(x = x, y = 'time'
+q<-ggplot(data = t50_table_tot, aes_string(x = x, y = 'time'
                            
                            , ymin = 'LCL'
                            
@@ -165,28 +155,11 @@ data_filt[,'low']<-conf_low
 data_filt[,'high']<-conf_high
 
 
-# plots raw data using ggplots
-q<-ggplot(data = data_filt[,], aes(x = time.after.plate, y = mean, ymin = low, ymax = high, colour = transition)) +
-  geom_point(aes(),position = position_dodge(width = 0.1)) +
-  geom_errorbar(position = position_dodge(width = 0.1), width = 0.1) +
-  facet_grid(~Series)+
-  geom_line(aes())+
-  #coord_flip() +
-  #scale_colour_manual(values = c("blue", "red")) +
-  theme(axis.line.x = element_line(colour = "black"),
-        axis.line.y = element_line(colour = "black"),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.border = element_blank(),
-        panel.background = element_blank()) 
-q+theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylim(c(0,1))
-
-
 for(d in unique(description)){
   #for(a in unique(starve)){
   #for(h in unique(hatch_day)){
   #  for(a in unique(mother_age)){
-  plot(c(42,53),c(0,1),type='n',xlab='time',ylab='proportion')
+  plot(c(39,53),c(0,1),type='n',xlab='time',ylab='proportion',main='d')
   for(m in levels(mt)){
     data_try<-data_filt[mt==m&description==d,]
     if(dim(data_try)[1]>1){
@@ -199,7 +172,7 @@ est<-predict(fit,type='resp',se.fit = T)
 if(m=='embryo'){
   sel<-t50_table_tot[,'transition']==m&t50_table_tot[,'description']==d
   t50<-t50_table_tot[sel,]
-  time_inter<-seq(t50[1,1]-1.5,t50[1,1]+1.5,0.1)
+  time_inter<-seq(t50[1,1]-1.6,t50[1,1]+1.6,0.1)
   plotCI(time,est$fit,uiw= est$se.fit*1.96, add = T,err='y',col="red", barcol="red", lwd=1,gap=0.3)
   plotCI(t50[1,1],0.5,uiw= t50[1,4]-t50[1,1],liw= t50[1,1]-t50[1,3], add = T,err='x',col="red", barcol="red", lwd=1,gap=0.3)
   pred<-predict(fit,data.frame(time=time_inter),type='resp',se.fit = T)
@@ -211,7 +184,7 @@ if(m=='embryo'){
   t50<-t50_table_tot[sel,]
   plotCI(time,est$fit,uiw= est$se.fit*1.96, add = T,err='y',col="dark green", barcol="dark green", lwd=1,gap=0.3)
   plotCI(t50[1,1],0.5,uiw= t50[1,4]-t50[1,1],liw=t50[1,1]-t50[1,3], add = T,err='x',col="dark green", barcol="dark green", lwd=1,gap=0.3)
-  time_inter<-seq(t50[1,1]-1.5,t50[1,1]+1.5,0.1)
+  time_inter<-seq(t50[1,1]-1.6,t50[1,1]+1.6,0.1)
   pred<-predict(fit,data.frame(time=time_inter),type='resp',se.fit = T)
   lines(time_inter,pred$fit,col='dark green',lwd=2)
   lines(time_inter,pred$fit-pred$se.fit,lty=2,col='dark green')
