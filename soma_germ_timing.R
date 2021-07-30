@@ -4,11 +4,11 @@ library(binom)
 library(MASS)
 library(drc)
 
-#read the data
-#data_old<-read.table('~/Dropbox (CRG)/work/mystery_influence/myst_inf_20_7_2017_time_series_MF.txt',sep='\t',header=T,stringsAsFactors = T)
-#wd <- '~/Dropbox (CRG)/mirko_francesconi/work/mystery_influence/'
+
+# set workind directory
 wd <- '~/workdir/'
 setwd(wd)
+#read the data
 data<-read.table('data.txt',sep='\t',header=T,stringsAsFactors = T)
 
 data_filt<-na.omit(data_filt)
