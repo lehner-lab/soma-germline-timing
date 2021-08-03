@@ -1,5 +1,5 @@
 # soma-germline-timing
-R script to analyze C. elegans somatic and germline timings as described in the paper 'Neuronal perception of the social environment generates an inherited memory that controls the development and generation time of C. elegans' 
+R script to analyze C. elegans somatic and germline timings as described in the paper 'Neuronal perception of the social environment generates an inherited memory that controls the development and generation time of C. elegans'. Data should be formatted as in the 'data.txt'.
 
 CellProfiler 3 project files with pipelines for measuring fluorescence in C elegans embryos ('Embryofluorescence.cpproj') or for measuring the length of L1 larvae. 
 
